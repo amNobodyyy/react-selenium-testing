@@ -55,6 +55,11 @@ describe('React Form Tests', function() {
   options.addArguments('--headless=new'); // Run in headless mode
       options.addArguments('--no-sandbox');
       options.addArguments('--disable-dev-shm-usage');
+      // Respect CHROME_BIN if provided by CI
+      if (process.env.CHROME_BIN) {
+        console.log('Using CHROME_BIN at:', process.env.CHROME_BIN);
+        options.setChromeBinaryPath(process.env.CHROME_BIN);
+      }
       
       console.log('Using chromedriver at:', chromedriver.path);
       
