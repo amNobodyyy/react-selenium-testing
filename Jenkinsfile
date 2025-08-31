@@ -24,14 +24,8 @@ pipeline {
       steps {
         bat 'node -v'
         bat 'npm -v'
-        // Prefer clean, fall back to install if lock mismatch
-        bat 'npm ci || npm install'
-      }
-    }
-
-    stage('Build') {
-      steps {
-        bat 'npm run build'
+  // Simple install for lab usage
+  bat 'npm install'
       }
     }
 
