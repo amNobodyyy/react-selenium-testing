@@ -71,23 +71,6 @@ pipeline {
         bat 'npx chromedriver --version'
         bat 'npm run test:selenium'
       }
-      post {
-        always {
-          archiveArtifacts artifacts: 'server.log', allowEmptyArchive: true
-        }
-      }
-    }
-  }
-
-  post {
-    always {
-      // Stop the static server if it was started
-      powershell '''
-        if (Test-Path .server.pid) {
-          $pid = Get-Content .server.pid | Select-Object -First 1
-          try { Stop-Process -Id $pid -Force } catch {}
-        }
-      '''
     }
   }
 }
