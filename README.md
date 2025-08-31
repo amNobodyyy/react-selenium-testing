@@ -4,6 +4,8 @@ A React application that implements a mini Google Form with validation and autom
 
 ## Features
 
+————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+
 - Form with various input types: text, email, number, select, radio buttons, and checkboxes
 - Form validation for all fields
 - "Thank You" page displaying submitted information

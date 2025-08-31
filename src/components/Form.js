@@ -101,7 +101,7 @@ const Form = () => {
               <h2>Form Submission</h2>
             </div>
             <div className="card-body">
-              <form onSubmit={handleSubmit}>
+              <form onSubmit={handleSubmit} noValidate>
                 {/* Full Name Field */}
                 <div className="mb-3">
                   <label htmlFor="name-input" className="form-label">Full Name</label>

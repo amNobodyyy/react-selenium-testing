@@ -19,7 +19,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "test:selenium": "mocha test/*.test.js"
+    "pretest:selenium": "npx chromedriver --version",
+    "test:selenium": "mocha --timeout 120000 test/*.test.js"
   },
   "eslintConfig": {
     "extends": [
