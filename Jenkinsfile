@@ -1,12 +1,11 @@
 pipeline {
-  agent any // Run on your local Jenkins agent/PC (no Docker)
+  agent any
 
   options {
     timestamps()
   }
 
   environment {
-    // Typical Windows Chrome path; adjust if needed on your PC
     CHROME_BIN = 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe'
     CI = 'true'
     NODE_ENV = 'test'
@@ -23,27 +22,27 @@ pipeline {
       steps {
         bat 'node -v'
         bat 'npm -v'
-  // Simple install for lab usage
-  bat 'npm install'
+        bat 'npm install'
       }
     }
 
     stage('Start Server') {
       steps {
-        // Start CRA dev server (npm start) on port 3000 in the background
         powershell '''
           $log = 'server.log'
           if (Test-Path $log) { Remove-Item $log -Force }
+
+          # Set env variables for CRA dev server
           $env:PORT = '3000'
           $env:BROWSER = 'none'
-          # Start npm in the background and get the process object
+
+          # Start npm in background WITHOUT -RedirectStandardOutput/-RedirectStandardError
           $proc = Start-Process -FilePath 'npm.cmd' -ArgumentList 'start' -NoNewWindow -PassThru
 
-          # Save the process ID to a file
+          # Save PID to file
           $proc.Id | Out-File -FilePath .server.pid -Encoding ascii
 
-
-          # Wait for server to be ready (up to ~90s to allow initial compile)
+          # Wait for server to be ready (up to 90s)
           $ready = $false
           for ($i = 1; $i -le 90; $i++) {
             try {
@@ -52,6 +51,7 @@ pipeline {
             } catch {}
             Start-Sleep -Seconds 1
           }
+
           if (-not $ready) {
             Write-Host '--- server.log tail ---'
             if (Test-Path $log) { Get-Content $log -Tail 100 | Write-Host }
