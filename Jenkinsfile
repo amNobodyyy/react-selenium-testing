@@ -36,9 +36,12 @@ pipeline {
           if (Test-Path $log) { Remove-Item $log -Force }
           $env:PORT = '3000'
           $env:BROWSER = 'none'
-          $proc = Start-Process -FilePath 'npm.cmd' -ArgumentList 'start' -NoNewWindow -PassThru \
-            -RedirectStandardOutput $log -RedirectStandardError $log
+          # Start npm in the background and get the process object
+          $proc = Start-Process -FilePath 'npm.cmd' -ArgumentList 'start' -NoNewWindow -PassThru
+
+          # Save the process ID to a file
           $proc.Id | Out-File -FilePath .server.pid -Encoding ascii
+
 
           # Wait for server to be ready (up to ~90s to allow initial compile)
           $ready = $false
